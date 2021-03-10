@@ -12,6 +12,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             + "price real, "
             + "pages integer,"
             + "name text)";
+
+    public static final String CREATE_CATEGORY = "create table Category ("
+            + "id integer primary key autoincrement,"
+            + "category_name text, "
+            + "category_code integer)";
+
     private Context mContext;
 
     public MyDatabaseHelper(Context context, String name,
@@ -21,14 +27,20 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_BOOK);
-        Toast.makeText(mContext, "Create succeeded", Toast.LENGTH_SHORT).show();
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("drop table if exists Book");
+        sqLiteDatabase.execSQL("drop table if exists Category");
+        onCreate(sqLiteDatabase);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_BOOK);
+        db.execSQL(CREATE_CATEGORY);
+        Toast.makeText(mContext, "Create succeeded", Toast.LENGTH_SHORT).show();
+
 
     }
+
 
 }
